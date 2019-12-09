@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# https://gist.github.com/petervanderdoes/bd6660302404ed5b094d
+# Based on https://gist.github.com/petervanderdoes/bd6660302404ed5b094d
+# Modified by Marijn Koesen: https://github.com/MarijnKoesen/zfs-check
 #
 problems=0
 emailSubject="`hostname` - ZFS pool - HEALTH check"
