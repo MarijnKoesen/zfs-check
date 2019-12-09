@@ -135,11 +135,11 @@ fi
 # + Playing a sound file or beep the internal speaker
 # + Update Nagios, Cacti, Zabbix, Munin or even BigBrother
 
-
 if [ "$problems" -ne 0 ]; then
   logger $emailSubject
-echo -e "$emailSubject\t$emailMessage" >> $ZFS_LOG
-# Notifica via email
-#
-/bin/bash /root/ZFS/notifica-zfs.sh
+  echo -e "$emailSubject\t$emailMessage" >> $ZFS_LOG
+  # Notifica via email
+  #
+  echo -e "$emailMessage \n\n\n `/sbin/zpool list` \n\n\n `/sbin/zpool status`" | mail -s "$emailSubject" root
+  #/bin/bash /root/ZFS/notifica-zfs.sh
 fi
