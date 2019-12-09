@@ -36,16 +36,26 @@ fi
 
 maxCapacity=80
 
-if [ ${problems} -eq 0 ]; then
-  capacity=$(/sbin/zpool list -H -o capacity)
-  for line in ${capacity//%/}
-  do
-    if [ $line -ge $maxCapacity ]; then
-      emailSubject="$emailSubject - Capacity Exceeded"
-      problems=1
-    fi
-  done
-fi
+IFS_BACKUP=$IFS
+IFS=$'\n' # let the forloop loop over full lines, instead of tokenized words after each whitespace
+
+for line in $(/sbin/zpool list -H -o capacity,name)
+do
+  perc=$(echo "$line" | awk '{ print $1 }' | sed 's/%//')
+  pool=$(echo "$line" | awk '{ print $2 }')
+
+  if [ "$pool" = "tank" ]; then
+    maxCapacity=90
+  fi
+
+  if [ $perc -ge $maxCapacity ]; then
+    emailSubject="$emailSubject - Capacity Exceeded on $pool (${perc}% / ${maxCapacity}%)"
+    echo $emailSubject
+    problems=1
+  fi
+done
+# And revert back for the next commands
+IFS=$IFS_BACKUP
 
 # Errors - Check the columns for READ, WRITE and CKSUM (checksum) drive errors
 # on all volumes and all drives using "zpool status". If any non-zero errors
