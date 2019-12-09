@@ -7,7 +7,7 @@ emailSubject="`hostname` - ZFS pool - HEALTH check"
 emailMessage=""
 
 #
-ZFS_LOG="/root/ZFS/ZFS-LOG.txt"
+ZFS_LOG="/var/log/zfs/zfs.log"
 #
 
 # Health - Check if all zfs volumes are in good condition. We are looking for
