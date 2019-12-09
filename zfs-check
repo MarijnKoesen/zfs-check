@@ -113,7 +113,7 @@ if [ ${problems} -eq 0 ]; then
     #scrubDate=$(date -j -f '%Y%b%e-%H%M%S' $scrubRawDate'-000000' +%s)
 
     ### Ubuntu with GNU supported date format
-    scrubRawDate=$(/sbin/zpool status $volume | grep scrub | awk '{print $13" "$14" " $15" " $16" "$17}')
+    scrubRawDate=$(/sbin/zpool status $volume | grep scrub | sed 's/.* on //')
     scrubDate=$(date -d "$scrubRawDate" +%s)
 
     if [ $(($currentDate - $scrubDate)) -ge $scrubExpire ]; then
