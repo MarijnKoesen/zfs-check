@@ -99,7 +99,8 @@ if [ ${problems} -eq 0 ]; then
   for volume in ${zfsVolumes}
   do
     if [ $(/sbin/zpool status $volume | egrep -c "none requested") -ge 1 ]; then
-      echo "ERROR: You need to run \"zpool scrub $volume\" before this script can monitor the scrub expiration time."
+      problems=1
+      emailMessage="ERROR: You need to run \"zpool scrub $volume\" before this script can monitor the scrub expiration time."
       break
     fi
 ##    if [ $(/sbin/zpool status $volume | egrep -c "scrub in progress|resilver") -ge 1 ]; then
